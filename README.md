@@ -16,6 +16,8 @@ Or install it yourself as:
 
     $ gem install bootstrap-filestyle-rails
 
+This gem's version reflects the asset version starting with `1.0.3`.
+
 ## Usage
 
 Just require it in your `application.js`:

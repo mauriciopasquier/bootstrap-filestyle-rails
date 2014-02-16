@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = BootstrapFilestyleRails::VERSION
   spec.authors       = ["Mauricio Pasquier Juan"]
   spec.email         = ["mauricio@pasquierjuan.com.ar"]
-  spec.description   = %Q{Bootstrap Filestyle #{BootstrapFilestyleRails::ASSET_VERSION},
-                          packaged for rails}
+  spec.description   = %Q{Bootstrap Filestyle (gem version reflects assets
+                          version) packaged for rails}
   spec.summary       = %q{Bootstrap Filestyle for the asset pipeline}
   spec.homepage      = "https://github.com/mauriciopasquier/bootstrap-filestyle-rails"
   spec.license       = "MIT"
