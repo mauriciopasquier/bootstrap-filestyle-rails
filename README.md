@@ -24,6 +24,14 @@ Just require it in your `application.js`:
 
     //= require bootstrap-filestyle
 
+And initialize your file input somehow:
+
+    $(":file").filestyle(
+      input: false
+    )
+
+You can check more configuration options in the [bootstrap-filestyle][] site.
+
 ## Contributing
 
 1. Fork it
