@@ -6,22 +6,22 @@
  * Version 1.0.3
  * Licensed under the MIT license.
  */
-(function ($) {
+(function($) {
     "use strict";
-    
-    var Filestyle = function (element, options) {
+
+    var Filestyle = function(element, options) {
         this.options = options;
         this.$elementFilestyle = [];
         this.$element = $(element);
     };
 
     Filestyle.prototype = {
-        clear: function () {
+        clear: function() {
             this.$element.val('');
             this.$elementFilestyle.find(':text').val('');
         },
 
-        destroy: function () {
+        destroy: function() {
             this.$element
                 .removeAttr('style')
                 .removeData('filestyle')
@@ -29,7 +29,7 @@
             this.$elementFilestyle.remove();
         },
 
-        icon: function (value) {
+        icon: function(value) {
             if (value === true) {
                 if (!this.options.icon) {
                     this.options.icon = true;
@@ -45,7 +45,7 @@
             }
         },
 
-        input: function (value) {
+        input: function(value) {
             if (value === true) {
                 if (!this.options.input) {
                     this.options.input = true;
@@ -54,7 +54,9 @@
                     var content = '',
                         files = [];
                     if (this.$element[0].files === undefined) {
-                        files[0] = {'name': this.$element[0].value};
+                        files[0] = {
+                            'name': this.$element[0].value
+                        };
                     } else {
                         files = this.$element[0].files;
                     }
@@ -76,7 +78,7 @@
             }
         },
 
-        buttonText: function (value) {
+        buttonText: function(value) {
             if (value !== undefined) {
                 this.options.buttonText = value;
                 this.$elementFilestyle.find('label span').html(this.options.buttonText);
@@ -85,10 +87,12 @@
             }
         },
 
-        classButton: function (value) {
+        classButton: function(value) {
             if (value !== undefined) {
                 this.options.classButton = value;
-                this.$elementFilestyle.find('label').attr({'class': this.options.classButton});
+                this.$elementFilestyle.find('label').attr({
+                    'class': this.options.classButton
+                });
                 if (this.options.classButton.search(/btn-inverse|btn-primary|btn-danger|btn-warning|btn-success/i) !== -1) {
                     this.$elementFilestyle.find('label i').addClass('icon-white');
                 } else {
@@ -99,20 +103,24 @@
             }
         },
 
-        classIcon: function (value) {
+        classIcon: function(value) {
             if (value !== undefined) {
                 this.options.classIcon = value;
                 if (this.options.classButton.search(/btn-inverse|btn-primary|btn-danger|btn-warning|btn-success/i) !== -1) {
-                    this.$elementFilestyle.find('label').find('i').attr({'class': 'icon-white '+this.options.classIcon});
+                    this.$elementFilestyle.find('label').find('i').attr({
+                        'class': 'icon-white ' + this.options.classIcon
+                    });
                 } else {
-                    this.$elementFilestyle.find('label').find('i').attr({'class': this.options.classIcon});
+                    this.$elementFilestyle.find('label').find('i').attr({
+                        'class': this.options.classIcon
+                    });
                 }
             } else {
                 return this.options.classIcon;
             }
         },
 
-        classInput: function (value) {
+        classInput: function(value) {
             if (value !== undefined) {
                 this.options.classInput = value;
                 this.$elementFilestyle.find(':text').addClass(this.options.classInput);
@@ -121,56 +129,75 @@
             }
         },
 
-        htmlIcon: function () {
+        htmlIcon: function() {
             if (this.options.icon) {
                 var colorIcon = '';
                 if (this.options.classButton.search(/btn-inverse|btn-primary|btn-danger|btn-warning|btn-success/i) !== -1) {
                     colorIcon = ' icon-white ';
                 }
 
-                return '<i class="'+colorIcon+this.options.classIcon+'"></i> ';
+                return '<i class="' + colorIcon + this.options.classIcon + '"></i> ';
             } else {
                 return '';
             }
         },
 
-        htmlInput: function () {
+        htmlInput: function() {
             if (this.options.input) {
-                return '<input type="text" class="'+this.options.classInput+'" disabled> ';
+                return '<input type="text" class="' + this.options.classInput + '" disabled> ';
             } else {
                 return '';
             }
         },
 
-        constructor: function () {
+        constructor: function() {
             var _self = this,
                 html = '',
                 id = this.$element.attr('id'),
                 files = [];
 
             if (id === '' || !id) {
-                id = 'filestyle-'+$('.bootstrap-filestyle').length;
-                this.$element.attr({'id': id});
+                id = 'filestyle-' + $('.bootstrap-filestyle').length;
+                this.$element.attr({
+                    'id': id
+                });
             }
 
-            html = this.htmlInput()+
-                 '<label for="'+id+'" class="'+this.options.classButton+'">'+
-                    this.htmlIcon()+
-                    '<span>'+this.options.buttonText+'</span>'+
-                 '</label>';
+            html = this.htmlInput() +
+                '<label for="' + id + '" class="' + this.options.classButton + '">' +
+                this.htmlIcon() +
+                '<span>' + this.options.buttonText + '</span>' +
+                '</label>';
 
-            this.$elementFilestyle = $('<div class="bootstrap-filestyle" style="display: inline;">'+html+'</div>');
+            this.$elementFilestyle = $('<div class="bootstrap-filestyle" style="display: inline;">' + html + '</div>');
+
+            var $label = this.$elementFilestyle.find('label');
+            var $labelFocusableContainer = $label.parent();
+
+            $labelFocusableContainer
+                .attr('tabindex', "0")
+                .keypress(function(e) {
+                    if (e.keyCode === 13 || e.charCode === 32) {
+                        $label.click();
+                    }
+                });
 
             // hidding input file and add filestyle
             this.$element
-                .css({'position':'fixed','left':'-500px'})
+                .css({
+                    'position': 'absolute',
+                    'left': '-9999px'
+                })
+                .attr('tabindex', "-1")
                 .after(this.$elementFilestyle);
 
             // Getting input file value
-            this.$element.change(function () {
+            this.$element.change(function() {
                 var content = '';
                 if (this.files === undefined) {
-                    files[0] = {'name': this.value};
+                    files[0] = {
+                        'name': this.value
+                    };
                 } else {
                     files = this.files;
                 }
@@ -187,7 +214,7 @@
             // Check if browser is Firefox
             if (window.navigator.userAgent.search(/firefox/i) > -1) {
                 // Simulating choose file for firefox
-                this.$elementFilestyle.find('label').click(function () {
+                this.$elementFilestyle.find('label').click(function() {
                     _self.$element.click();
                     return false;
                 });
@@ -197,9 +224,9 @@
 
     var old = $.fn.filestyle;
 
-    $.fn.filestyle = function (option, value) {
+    $.fn.filestyle = function(option, value) {
         var get = '',
-            element = this.each(function () {
+            element = this.each(function() {
                 if ($(this).attr('type') === 'file') {
                     var $this = $(this),
                         data = $this.data('filestyle'),
@@ -232,13 +259,13 @@
         'classIcon': 'icon-folder-open'
     };
 
-    $.fn.filestyle.noConflict = function () {
+    $.fn.filestyle.noConflict = function() {
         $.fn.filestyle = old;
         return this;
     };
 
     // Data attributes register
-    $('.filestyle').each(function () {
+    $('.filestyle').each(function() {
         var $this = $(this),
             options = {
                 'buttonText': $this.attr('data-buttonText'),
@@ -251,5 +278,4 @@
 
         $this.filestyle(options);
     });
-
 })(window.jQuery);
