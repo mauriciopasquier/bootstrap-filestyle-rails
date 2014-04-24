@@ -3,12 +3,12 @@
  * http://dev.tudosobreweb.com.br/bootstrap-filestyle/
  *
  * Copyright (c) 2013 Markus Vinicius da Silva Lima
- * Version 1.0.3
+ * Version 1.0.4
  * Licensed under the MIT license.
  */
 (function ($) {
     "use strict";
-    
+
     var Filestyle = function (element, options) {
         this.options = options;
         this.$elementFilestyle = [];
@@ -153,17 +153,54 @@
                 this.$element.attr({'id': id});
             }
 
-            html = this.htmlInput()+
-                 '<label for="'+id+'" class="'+this.options.classButton+'">'+
-                    this.htmlIcon()+
-                    '<span>'+this.options.buttonText+'</span>'+
-                 '</label>';
+            var inputContainerOpen = (this.options.classInputContainerClass != '') ? '<div class="'+this.options.classInputContainerClass+'">' : '';
+            var inputContainerClose = (inputContainerOpen != '') ? '</div>' : '';
 
-            this.$elementFilestyle = $('<div class="bootstrap-filestyle" style="display: inline;">'+html+'</div>');
+            var buttonContainerOpen = (this.options.classButtonContainerClass != '') ? '<div class="'+this.options.classButtonContainerClass+'">' : '';
+            var buttonContainerClose = (buttonContainerOpen != '') ? '</div>' : '';
+
+            if(this.options.buttonBefore)
+            {
+                html =
+                    buttonContainerOpen+
+                        '<label for="'+id+'" class="'+this.options.classButton+'">'+
+                            this.htmlIcon()+
+                            '<span>'+this.options.buttonText+'</span>'+
+                        '</label>'+
+                    buttonContainerClose+
+                    inputContainerOpen+
+                        this.htmlInput()+
+                    inputContainerClose;
+            } else {
+                html =
+                    inputContainerOpen+
+                        this.htmlInput()+
+                    inputContainerClose+
+                    buttonContainerOpen+
+                        '<label for="'+id+'" class="'+this.options.classButton+'">'+
+                            this.htmlIcon()+
+                        '<span>'+this.options.buttonText+'</span>'+
+                    '</label>'+
+                    buttonContainerClose;
+            }
+
+            this.$elementFilestyle = $('<div class="'+this.options.containerClass+' bootstrap-filestyle">'+html+'</div>');
+
+            var $label = this.$elementFilestyle.find('label');
+            var $labelFocusableContainer = $label.parent();
+
+            $labelFocusableContainer
+                .attr('tabindex', "0")
+                .keypress(function(e) {
+                    if (e.keyCode === 13 || e.charCode === 32) {
+                        $label.click();
+                    }
+                });
 
             // hidding input file and add filestyle
             this.$element
-                .css({'position':'fixed','left':'-500px'})
+                .css({'position':'absolute','clip':'rect(0,0,0,0)'})
+                .attr('tabindex', "-1")
                 .after(this.$elementFilestyle);
 
             // Getting input file value
@@ -181,6 +218,8 @@
 
                 if (content !== '') {
                     _self.$elementFilestyle.find(':text').val(content.replace(/\, $/g, ''));
+                } else {
+                	_self.$elementFilestyle.find(':text').val('');
                 }
             });
 
@@ -227,9 +266,14 @@
         'buttonText': 'Choose file',
         'input': true,
         'icon': true,
-        'classButton': 'btn',
-        'classInput': 'input-large',
-        'classIcon': 'icon-folder-open'
+        'buttonBefore': false,
+
+        'containerClass': 'form-group', // bootstrap-filestyle
+        'classButtonContainerClass': '',
+        'classButton': 'btn btn-default',
+        'classInputContainerClass': '',
+        'classInput': 'form-control',
+        'classIcon': 'glyphicon glyphicon-folder-open'
     };
 
     $.fn.filestyle.noConflict = function () {
@@ -238,18 +282,19 @@
     };
 
     // Data attributes register
-    $('.filestyle').each(function () {
-        var $this = $(this),
-            options = {
-                'buttonText': $this.attr('data-buttonText'),
-                'input': $this.attr('data-input') === 'false' ? false : true,
-                'icon': $this.attr('data-icon') === 'false' ? false : true,
-                'classButton': $this.attr('data-classButton'),
-                'classInput': $this.attr('data-classInput'),
-                'classIcon': $this.attr('data-classIcon')
-            };
-
-        $this.filestyle(options);
+    $(function() {
+        $('.filestyle').each(function () {
+            var $this = $(this),
+                options = {
+                    'buttonText': $this.attr('data-buttonText'),
+                    'input': $this.attr('data-input') === 'false' ? false : true,
+                    'icon': $this.attr('data-icon') === 'false' ? false : true,
+                    'classButton': $this.attr('data-classButton'),
+                    'classInput': $this.attr('data-classInput'),
+                    'classIcon': $this.attr('data-classIcon')
+                };
+    
+            $this.filestyle(options);
+        });
     });
-
 })(window.jQuery);
