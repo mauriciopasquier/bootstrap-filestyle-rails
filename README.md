@@ -26,9 +26,9 @@ Just require it in your `application.js`:
 
 And initialize your file input somehow:
 
-    $(":file").filestyle(
+    $(":file").filestyle({
       input: false
-    )
+    })
 
 You can check more configuration options in the [bootstrap-filestyle][] site.
 
