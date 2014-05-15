@@ -1,9 +1,10 @@
 /*
  * bootstrap-filestyle
- * http://dev.tudosobreweb.com.br/bootstrap-filestyle/
+ * doc: http://dev.tudosobreweb.com.br/bootstrap-filestyle/
+ * github: https://github.com/markusslima/bootstrap-filestyle
  *
  * Copyright (c) 2014 Markus Vinicius da Silva Lima
- * Version 1.0.5
+ * Version 1.1.0
  * Licensed under the MIT license.
  */
 (function ($) {
@@ -28,46 +29,46 @@
                 .val('');
             this.$elementFilestyle.remove();
         },
-
+        
         disabled: function (value) {
-          if (value === true) {
-            if (!this.options.disabled) {
-              this.$element
-                    .attr('disabled', 'true');
-                this.$elementFilestyle.find('label').attr('disabled', 'true');
-                this.options.disabled = true;
-            }
-          } else if (value === false) {
-            if (this.options.disabled) {
-                this.$element
-                    .removeAttr('disabled');
-                this.$elementFilestyle.find('label').removeAttr('disabled');
-                this.options.disabled = false;
-            }
+        	if (value === true) {
+        		if (!this.options.disabled) {
+	        		this.$element
+		                .attr('disabled', 'true');
+		            this.$elementFilestyle.find('label').attr('disabled', 'true');
+		            this.options.disabled = true;
+		        }
+        	} else if (value === false) {
+        		if (this.options.disabled) {
+		            this.$element
+		                .removeAttr('disabled');
+		            this.$elementFilestyle.find('label').removeAttr('disabled');
+		            this.options.disabled = false;
+		        }
             } else {
                 return this.options.disabled;
             }
         },
-
+        
         buttonBefore: function (value) {
-          if (value === true) {
-            if (!this.options.buttonBefore) {
-              this.options.buttonBefore = true;
-              if (this.options.input) {
-                this.$elementFilestyle.remove();
-                this.constructor();
-                this.pushNameFiles();
-              }
-            }
-          } else if (value === false) {
-            if (this.options.buttonBefore) {
-                this.options.buttonBefore = false;
-                if (this.options.input) {
-                this.$elementFilestyle.remove();
-                this.constructor();
-                this.pushNameFiles();
-              }
-            }
+        	if (value === true) {
+        		if (!this.options.buttonBefore) {
+	        		this.options.buttonBefore = true;
+	        		if (this.options.input) {
+	        			this.$elementFilestyle.remove();
+	        			this.constructor();
+	        			this.pushNameFiles();
+	        		}
+	        	}
+        	} else if (value === false) {
+        		if (this.options.buttonBefore) {
+		            this.options.buttonBefore = false;
+		            if (this.options.input) {
+	        			this.$elementFilestyle.remove();
+	        			this.constructor();
+	        			this.pushNameFiles();
+	        		}
+		        }
             } else {
                 return this.options.buttonBefore;
             }
@@ -82,7 +83,7 @@
             } else if (value === false) {
                 if (this.options.icon) {
                     this.options.icon = false;
-                    this.$elementFilestyle.find('i').remove();
+                    this.$elementFilestyle.find('.glyphicon').remove();
                 }
             } else {
                 return this.options.icon;
@@ -93,14 +94,14 @@
             if (value === true) {
                 if (!this.options.input) {
                     this.options.input = true;
-
+                    
                     if (this.options.buttonBefore) {
-                      this.$elementFilestyle.append(this.htmlInput());
+                    	this.$elementFilestyle.append(this.htmlInput());
                     } else {
-                      this.$elementFilestyle.prepend(this.htmlInput());
+                    	this.$elementFilestyle.prepend(this.htmlInput());
                     }
-
-                    this.$elementFilestyle.find('.quant-files-filestyle').remove();
+                    
+                    this.$elementFilestyle.find('.badge').remove();
 
                     var content = '',
                         files = [];
@@ -116,29 +117,42 @@
                     if (content !== '') {
                         this.$elementFilestyle.find(':text').val(content.replace(/\, $/g, ''));
                     }
+                    
+                    this.$elementFilestyle.find('.group-span-filestyle').addClass('input-group-btn');
                 }
             } else if (value === false) {
                 if (this.options.input) {
                     this.options.input = false;
                     this.$elementFilestyle.find(':text').remove();
                     var files = [];
-                  if (this.$element[0].files === undefined) {
-                      files[0] = {'name': this.$element[0].value};
-                  } else {
-                      files = this.$element[0].files;
-                  }
-                  if (files.length > 0) {
-                    var style;
-                    if (this.options.classButton.search(/btn-inverse|btn-primary|btn-danger|btn-warning|btn-success/i) !== -1) {
-                        style = 'style="background-color: #fff !important; color: 000;"';
-                    } else {
-                      style = 'style="background-color: #000 !important; color: fff;"';
-                    }
-                    this.$elementFilestyle.find('label').append(' <span '+style+' class="quant-files-filestyle badge">'+files.length+'</span>');
-                  }
+	                if (this.$element[0].files === undefined) {
+	                    files[0] = {'name': this.$element[0].value};
+	                } else {
+	                    files = this.$element[0].files;
+	                }
+	                if (files.length > 0) {
+	                	this.$elementFilestyle.find('label').append(' <span class="badge">'+files.length+'</span>');
+	                }
+	                this.$elementFilestyle.find('.group-span-filestyle').removeClass('input-group-btn');
                 }
             } else {
                 return this.options.input;
+            }
+        },
+        
+        size: function (value) {
+        	if (value !== undefined) {
+                var btn = this.$elementFilestyle.find('label'),
+                    input = this.$elementFilestyle.find('input');
+                    
+                btn.removeClass('btn-lg btn-sm');
+                input.removeClass('input-lg input-sm');
+                if (value != 'nr') {
+                	btn.addClass('btn-'+value);
+                	input.addClass('input-'+value);
+                }
+            } else {
+                return this.options.size;
             }
         },
 
@@ -151,50 +165,26 @@
             }
         },
 
-        classButton: function (value) {
+        buttonName: function (value) {
             if (value !== undefined) {
-                this.options.classButton = value;
-                this.$elementFilestyle.find('label').attr({'class': this.options.classButton});
-                if (this.options.classButton.search(/btn-inverse|btn-primary|btn-danger|btn-warning|btn-success/i) !== -1) {
-                    this.$elementFilestyle.find('label i').addClass('icon-white');
-                } else {
-                    this.$elementFilestyle.find('label i').removeClass('icon-white');
-                }
+                this.options.buttonName = value;
+                this.$elementFilestyle.find('label').attr({'class': 'btn '+this.options.buttonName});
             } else {
-                return this.options.classButton;
+                return this.options.buttonName;
             }
         },
 
-        classIcon: function (value) {
+        iconName: function (value) {
             if (value !== undefined) {
-                this.options.classIcon = value;
-                if (this.options.classButton.search(/btn-inverse|btn-primary|btn-danger|btn-warning|btn-success/i) !== -1) {
-                    this.$elementFilestyle.find('label').find('i').attr({'class': 'icon-white '+this.options.classIcon});
-                } else {
-                    this.$elementFilestyle.find('label').find('i').attr({'class': this.options.classIcon});
-                }
+                this.$elementFilestyle.find('.glyphicon').attr({'class': '.glyphicon ' + this.options.iconName});
             } else {
-                return this.options.classIcon;
-            }
-        },
-
-        classInput: function (value) {
-            if (value !== undefined) {
-                this.options.classInput = value;
-                this.$elementFilestyle.find(':text').addClass(this.options.classInput);
-            } else {
-                return this.options.classInput;
+                return this.options.iconName;
             }
         },
 
         htmlIcon: function () {
             if (this.options.icon) {
-                var colorIcon = '';
-                if (this.options.classButton.search(/btn-inverse|btn-primary|btn-danger|btn-warning|btn-success/i) !== -1) {
-                    colorIcon = ' icon-white ';
-                }
-
-                return '<i class="'+colorIcon+this.options.classIcon+'"></i> ';
+                return '<span class="glyphicon '+this.options.iconName+'"></span> ';
             } else {
                 return '';
             }
@@ -202,22 +192,22 @@
 
         htmlInput: function () {
             if (this.options.input) {
-                return '<input type="text" class="'+this.options.classInput+'" disabled> ';
+                return '<input type="text" class="form-control '+(this.options.size=='nr'?'':'input-'+this.options.size)+'" disabled> ';
             } else {
                 return '';
             }
         },
-
+        
         // puts the name of the input files
         pushNameFiles: function () {
-          var content = '',
-              files = [];
+        	var content = '',
+        	    files = [];
             if (this.$element[0].files === undefined) {
                 files[0] = {'name': this.$element.value};
             } else {
                 files = this.$element[0].files;
             }
-
+            
             for (var i = 0; i < files.length; i++) {
                 content += files[i].name.split("\\").pop() + ', ';
             }
@@ -225,7 +215,7 @@
             if (content !== '') {
                 this.$elementFilestyle.find(':text').val(content.replace(/\, $/g, ''));
             } else {
-              this.$elementFilestyle.find(':text').val('');
+            	this.$elementFilestyle.find(':text').val('');
             }
         },
 
@@ -233,31 +223,28 @@
             var _self = this,
                 html = '',
                 id = this.$element.attr('id'),
-                files = [];
+                files = [],
+                btn = '',
+                $label,
+                $labelFocusableContainer;
 
             if (id === '' || !id) {
                 id = 'filestyle-'+$('.bootstrap-filestyle').length;
                 this.$element.attr({'id': id});
             }
+            
+            btn = '<span class="group-span-filestyle '+(this.options.input ? 'input-group-btn' : '') +'">'+
+            		  '<label for="'+id+'" class="btn '+this.options.buttonName+' '+(this.options.size=='nr'?'':'btn-'+this.options.size)+'" '+(this.options.disabled?'disabled="true"':'')+'>'+
+                          this.htmlIcon()+this.options.buttonText+
+                      '</label>'+
+                  '</span>';
 
-            if(this.options.buttonBefore) {
-                html = '<label for="'+id+'" style="margin-right: 4px;" class="'+this.options.classButton+'" '+(this.options.disabled?'disabled="true"':'')+'>'+
-                           this.htmlIcon()+
-                           '<span>'+this.options.buttonText+'</span>'+
-                       '</label>'+
-                        this.htmlInput();
-            } else {
-                html = this.htmlInput()+
-                       '<label for="'+id+'" class="'+this.options.classButton+'" '+(this.options.disabled?'disabled="true"':'')+'> '+
-                           this.htmlIcon()+
-                         '<span>'+this.options.buttonText+'</span>'+
-                     '</label>';
-            }
+            html = this.options.buttonBefore ? btn+this.htmlInput() : this.htmlInput()+btn;
 
-            this.$elementFilestyle = $('<div class="bootstrap-filestyle" style="display: inline-block;">'+html+'</div>');
+            this.$elementFilestyle = $('<div class="bootstrap-filestyle input-group">'+html+'</div>');
 
-            var $label = this.$elementFilestyle.find('label');
-            var $labelFocusableContainer = $label.parent();
+            $label = this.$elementFilestyle.find('label');
+            $labelFocusableContainer = $label.parent();
 
             $labelFocusableContainer
                 .attr('tabindex', "0")
@@ -272,9 +259,9 @@
                 .css({'position':'absolute','clip':'rect(0,0,0,0)'})
                 .attr('tabindex', "-1")
                 .after(this.$elementFilestyle);
-
+                
             if (this.options.disabled) {
-              this.$element.attr('disabled', 'true');
+            	this.$element.attr('disabled', 'true');
             }
 
             // Getting input file value
@@ -293,25 +280,19 @@
                 if (content !== '') {
                     _self.$elementFilestyle.find(':text').val(content.replace(/\, $/g, ''));
                 } else {
-                  _self.$elementFilestyle.find(':text').val('');
+                	_self.$elementFilestyle.find(':text').val('');
                 }
-
+                
                 if (_self.options.input == false) {
-                  var style;
-                  if (_self.options.classButton.search(/btn-inverse|btn-primary|btn-danger|btn-warning|btn-success/i) !== -1) {
-                      style = 'style="background-color: #fff !important; color: #000;"';
-                  } else {
-                    style = 'style="background-color: #000 !important; color: #fff;"';
-                  }
-                  if (_self.$elementFilestyle.find('.quant-files-filestyle').length == 0) {
-                    _self.$elementFilestyle.find('label').append(' <span '+style+' class="quant-files-filestyle badge">'+files.length+'</span>');
-                  } else if (files.length == 0) {
-                    _self.$elementFilestyle.find('.quant-files-filestyle').remove();
-                  } else {
-                    _self.$elementFilestyle.find('.quant-files-filestyle').html(files.length);
-                  }
+                	if (_self.$elementFilestyle.find('.badge').length == 0) {
+                		_self.$elementFilestyle.find('label').append(' <span class="badge">'+files.length+'</span>');
+                	} else if (files.length == 0) {
+                		_self.$elementFilestyle.find('.badge').remove();
+                	} else {
+                		_self.$elementFilestyle.find('.badge').html(files.length);
+                	}
                 } else {
-                  _self.$elementFilestyle.find('.quant-files-filestyle').remove();
+                	_self.$elementFilestyle.find('.badge').remove();
                 }
             });
 
@@ -356,14 +337,13 @@
 
     $.fn.filestyle.defaults = {
         'buttonText': 'Choose file',
+        'iconName': 'glyphicon-folder-open',
+        'buttonName': 'btn-default',
+        'size': 'nr',
         'input': true,
         'icon': true,
         'buttonBefore': false,
-        'disabled': false,
-
-        'classButton': 'btn btn-default',
-        'classInput': 'input-large',
-        'classIcon': 'icon-folder-open'
+        'disabled': false
     };
 
     $.fn.filestyle.noConflict = function () {
@@ -376,19 +356,17 @@
         $('.filestyle').each(function () {
             var $this = $(this),
                 options = {
-
+                    
                     'input': $this.attr('data-input') === 'false' ? false : true,
                     'icon': $this.attr('data-icon') === 'false' ? false : true,
                     'buttonBefore': $this.attr('data-buttonBefore') === 'true' ? true : false,
                     'disabled': $this.attr('data-disabled') === 'true' ? true : false,
-
+                    'size': $this.attr('data-size'),
                     'buttonText': $this.attr('data-buttonText'),
-                    'classButton': $this.attr('data-classButton'),
-                    'classInput': $this.attr('data-classInput'),
-                    'classIcon': $this.attr('data-classIcon'),
-                    'disabled': $this.attr('data-disabled') === 'true' ? true : false,
+                    'buttonName': $this.attr('data-buttonName'),
+                    'iconName': $this.attr('data-iconName')
                 };
-
+    
             $this.filestyle(options);
         });
     });
