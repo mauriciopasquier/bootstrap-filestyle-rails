@@ -29,46 +29,46 @@
                 .val('');
             this.$elementFilestyle.remove();
         },
-        
+
         disabled: function (value) {
-        	if (value === true) {
-        		if (!this.options.disabled) {
-	        		this.$element
-		                .attr('disabled', 'true');
-		            this.$elementFilestyle.find('label').attr('disabled', 'true');
-		            this.options.disabled = true;
-		        }
-        	} else if (value === false) {
-        		if (this.options.disabled) {
-		            this.$element
-		                .removeAttr('disabled');
-		            this.$elementFilestyle.find('label').removeAttr('disabled');
-		            this.options.disabled = false;
-		        }
+          if (value === true) {
+            if (!this.options.disabled) {
+              this.$element
+                    .attr('disabled', 'true');
+                this.$elementFilestyle.find('label').attr('disabled', 'true');
+                this.options.disabled = true;
+            }
+          } else if (value === false) {
+            if (this.options.disabled) {
+                this.$element
+                    .removeAttr('disabled');
+                this.$elementFilestyle.find('label').removeAttr('disabled');
+                this.options.disabled = false;
+            }
             } else {
                 return this.options.disabled;
             }
         },
-        
+
         buttonBefore: function (value) {
-        	if (value === true) {
-        		if (!this.options.buttonBefore) {
-	        		this.options.buttonBefore = true;
-	        		if (this.options.input) {
-	        			this.$elementFilestyle.remove();
-	        			this.constructor();
-	        			this.pushNameFiles();
-	        		}
-	        	}
-        	} else if (value === false) {
-        		if (this.options.buttonBefore) {
-		            this.options.buttonBefore = false;
-		            if (this.options.input) {
-	        			this.$elementFilestyle.remove();
-	        			this.constructor();
-	        			this.pushNameFiles();
-	        		}
-		        }
+          if (value === true) {
+            if (!this.options.buttonBefore) {
+              this.options.buttonBefore = true;
+              if (this.options.input) {
+                this.$elementFilestyle.remove();
+                this.constructor();
+                this.pushNameFiles();
+              }
+            }
+          } else if (value === false) {
+            if (this.options.buttonBefore) {
+                this.options.buttonBefore = false;
+                if (this.options.input) {
+                this.$elementFilestyle.remove();
+                this.constructor();
+                this.pushNameFiles();
+              }
+            }
             } else {
                 return this.options.buttonBefore;
             }
@@ -94,13 +94,13 @@
             if (value === true) {
                 if (!this.options.input) {
                     this.options.input = true;
-                    
+
                     if (this.options.buttonBefore) {
-                    	this.$elementFilestyle.append(this.htmlInput());
+                      this.$elementFilestyle.append(this.htmlInput());
                     } else {
-                    	this.$elementFilestyle.prepend(this.htmlInput());
+                      this.$elementFilestyle.prepend(this.htmlInput());
                     }
-                    
+
                     this.$elementFilestyle.find('.badge').remove();
 
                     var content = '',
@@ -117,7 +117,7 @@
                     if (content !== '') {
                         this.$elementFilestyle.find(':text').val(content.replace(/\, $/g, ''));
                     }
-                    
+
                     this.$elementFilestyle.find('.group-span-filestyle').addClass('input-group-btn');
                 }
             } else if (value === false) {
@@ -125,31 +125,31 @@
                     this.options.input = false;
                     this.$elementFilestyle.find(':text').remove();
                     var files = [];
-	                if (this.$element[0].files === undefined) {
-	                    files[0] = {'name': this.$element[0].value};
-	                } else {
-	                    files = this.$element[0].files;
-	                }
-	                if (files.length > 0) {
-	                	this.$elementFilestyle.find('label').append(' <span class="badge">'+files.length+'</span>');
-	                }
-	                this.$elementFilestyle.find('.group-span-filestyle').removeClass('input-group-btn');
+                  if (this.$element[0].files === undefined) {
+                      files[0] = {'name': this.$element[0].value};
+                  } else {
+                      files = this.$element[0].files;
+                  }
+                  if (files.length > 0) {
+                    this.$elementFilestyle.find('label').append(' <span class="badge">'+files.length+'</span>');
+                  }
+                  this.$elementFilestyle.find('.group-span-filestyle').removeClass('input-group-btn');
                 }
             } else {
                 return this.options.input;
             }
         },
-        
+
         size: function (value) {
-        	if (value !== undefined) {
+          if (value !== undefined) {
                 var btn = this.$elementFilestyle.find('label'),
                     input = this.$elementFilestyle.find('input');
-                    
+
                 btn.removeClass('btn-lg btn-sm');
                 input.removeClass('input-lg input-sm');
                 if (value != 'nr') {
-                	btn.addClass('btn-'+value);
-                	input.addClass('input-'+value);
+                  btn.addClass('btn-'+value);
+                  input.addClass('input-'+value);
                 }
             } else {
                 return this.options.size;
@@ -197,17 +197,17 @@
                 return '';
             }
         },
-        
+
         // puts the name of the input files
         pushNameFiles: function () {
-        	var content = '',
-        	    files = [];
+          var content = '',
+              files = [];
             if (this.$element[0].files === undefined) {
                 files[0] = {'name': this.$element.value};
             } else {
                 files = this.$element[0].files;
             }
-            
+
             for (var i = 0; i < files.length; i++) {
                 content += files[i].name.split("\\").pop() + ', ';
             }
@@ -215,7 +215,7 @@
             if (content !== '') {
                 this.$elementFilestyle.find(':text').val(content.replace(/\, $/g, ''));
             } else {
-            	this.$elementFilestyle.find(':text').val('');
+              this.$elementFilestyle.find(':text').val('');
             }
         },
 
@@ -232,9 +232,9 @@
                 id = 'filestyle-'+$('.bootstrap-filestyle').length;
                 this.$element.attr({'id': id});
             }
-            
+
             btn = '<span class="group-span-filestyle '+(this.options.input ? 'input-group-btn' : '') +'">'+
-            		  '<label for="'+id+'" class="btn '+this.options.buttonName+' '+(this.options.size=='nr'?'':'btn-'+this.options.size)+'" '+(this.options.disabled?'disabled="true"':'')+'>'+
+                  '<label for="'+id+'" class="btn '+this.options.buttonName+' '+(this.options.size=='nr'?'':'btn-'+this.options.size)+'" '+(this.options.disabled?'disabled="true"':'')+'>'+
                           this.htmlIcon()+this.options.buttonText+
                       '</label>'+
                   '</span>';
@@ -259,9 +259,9 @@
                 .css({'position':'absolute','clip':'rect(0,0,0,0)'})
                 .attr('tabindex', "-1")
                 .after(this.$elementFilestyle);
-                
+
             if (this.options.disabled) {
-            	this.$element.attr('disabled', 'true');
+              this.$element.attr('disabled', 'true');
             }
 
             // Getting input file value
@@ -280,19 +280,19 @@
                 if (content !== '') {
                     _self.$elementFilestyle.find(':text').val(content.replace(/\, $/g, ''));
                 } else {
-                	_self.$elementFilestyle.find(':text').val('');
+                  _self.$elementFilestyle.find(':text').val('');
                 }
-                
+
                 if (_self.options.input == false) {
-                	if (_self.$elementFilestyle.find('.badge').length == 0) {
-                		_self.$elementFilestyle.find('label').append(' <span class="badge">'+files.length+'</span>');
-                	} else if (files.length == 0) {
-                		_self.$elementFilestyle.find('.badge').remove();
-                	} else {
-                		_self.$elementFilestyle.find('.badge').html(files.length);
-                	}
+                  if (_self.$elementFilestyle.find('.badge').length == 0) {
+                    _self.$elementFilestyle.find('label').append(' <span class="badge">'+files.length+'</span>');
+                  } else if (files.length == 0) {
+                    _self.$elementFilestyle.find('.badge').remove();
+                  } else {
+                    _self.$elementFilestyle.find('.badge').html(files.length);
+                  }
                 } else {
-                	_self.$elementFilestyle.find('.badge').remove();
+                  _self.$elementFilestyle.find('.badge').remove();
                 }
             });
 
@@ -356,7 +356,7 @@
         $('.filestyle').each(function () {
             var $this = $(this),
                 options = {
-                    
+
                     'input': $this.attr('data-input') === 'false' ? false : true,
                     'icon': $this.attr('data-icon') === 'false' ? false : true,
                     'buttonBefore': $this.attr('data-buttonBefore') === 'true' ? true : false,
@@ -366,7 +366,7 @@
                     'buttonName': $this.attr('data-buttonName'),
                     'iconName': $this.attr('data-iconName')
                 };
-    
+
             $this.filestyle(options);
         });
     });
