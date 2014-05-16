@@ -3,7 +3,7 @@
  * http://dev.tudosobreweb.com.br/bootstrap-filestyle/
  *
  * Copyright (c) 2014 Markus Vinicius da Silva Lima
- * Version 1.0.5
+ * Version 1.0.6
  * Licensed under the MIT license.
  */
 (function ($) {
@@ -385,8 +385,7 @@
                     'buttonText': $this.attr('data-buttonText'),
                     'classButton': $this.attr('data-classButton'),
                     'classInput': $this.attr('data-classInput'),
-                    'classIcon': $this.attr('data-classIcon'),
-                    'disabled': $this.attr('data-disabled') === 'true' ? true : false,
+                    'classIcon': $this.attr('data-classIcon')
                 };
 
             $this.filestyle(options);
