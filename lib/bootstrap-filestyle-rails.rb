@@ -1,7 +1,7 @@
 require 'rails'
 require 'bootstrap-filestyle-rails/version'
 
-# Add bootstrap-filestyle to the asset pipeline
+# Public: Adds bootstrap-filestyle to the rails asset pipeline.
 module BootstrapFilestyleRails
   if ::Rails.version.to_s < '3.1'
     require 'bootstrap-filestyle-rails/railtie'
