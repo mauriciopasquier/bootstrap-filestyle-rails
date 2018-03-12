@@ -2,6 +2,13 @@
 
 [bootstrap-filestyle][] for the asset pipeline.
 
+## This gem is not maintained anymore
+
+You should instead use something like [rails-assets][]
+([here](https://rails-assets.org/#/components/bootstrap-filestyle) are the
+instructions for the equivalent assets) or through `yarn` and `webpack` if
+you're using rails 5.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -40,4 +47,5 @@ You can check more configuration options in the [bootstrap-filestyle][] site.
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-[bootstrap-filestyle]: http://markusslima.github.io/bootstrap-filestyle/
+[bootstrap-filestyle]: http://markusslima.github.io/bootstrap-filestyle
+[rails-assets]: https://rails-assets.org
